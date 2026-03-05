@@ -57,7 +57,6 @@ public class Board
     							 {'E','E','E'}};
     	this.grid = clearedBoard;
     	this.saveBoardToFile();
-    			
     }
     
     public static void main(String args[]) 
