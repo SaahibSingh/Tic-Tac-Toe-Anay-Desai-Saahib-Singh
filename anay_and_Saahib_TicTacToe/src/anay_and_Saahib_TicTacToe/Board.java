@@ -1,4 +1,4 @@
-package anay_and_Saahib_TicTacToe;
+package anay_and_Saahib_TicTacToe
 
 public class Board {
 
