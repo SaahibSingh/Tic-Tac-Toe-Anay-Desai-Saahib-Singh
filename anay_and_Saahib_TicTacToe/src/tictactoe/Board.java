@@ -42,7 +42,14 @@ public class Board
     /***These are the methods used to test those above***/
     public void printGrid() //prints the current grid
     { 
-    	
+    	for(int row = 0; row < grid.length; row++)
+    	{
+    		for(int col = 0; col < grid[0].length; col++)
+    		{
+    			System.out.print(grid[row][col] + " ");
+    		}
+    		System.out.println();
+    	}
     } 
     
     public void createRandomBoard() //create a random board
