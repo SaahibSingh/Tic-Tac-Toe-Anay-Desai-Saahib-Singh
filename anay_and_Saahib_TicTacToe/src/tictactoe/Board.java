@@ -40,20 +40,25 @@ public class Board
     }
     
     /***These are the methods used to test those above***/
-    public void printGrid() 
+    public void printGrid() //prints the current grid
     { 
     	
-    } //prints the current grid
+    } 
     
-    public void createRandomBoard() 
+    public void createRandomBoard() //create a random board
     { 
     	
-    } //create a random board
+    } 
     
-    public void clearBoard()  
+    public void clearBoard()  //clears the grid by placing E in every cell
     {  
-    	
-    } //clears the grid by placing E in every cell
+    	char[][] clearedBoard = {{'E','E','E'},
+    							 {'E','E','E'},
+    							 {'E','E','E'}};
+    	this.grid = clearedBoard;
+    	this.saveBoardToFile();
+    			
+    }
     
     public static void main(String args[]) 
     {
