@@ -40,7 +40,8 @@ public class Board
     }
     
     /***These are the methods used to test those above***/
-    public void printGrid() //prints the current grid
+    //prints the current grid
+    public void printGrid() 
     { 
     	for(int row = 0; row < grid.length; row++)
     	{
