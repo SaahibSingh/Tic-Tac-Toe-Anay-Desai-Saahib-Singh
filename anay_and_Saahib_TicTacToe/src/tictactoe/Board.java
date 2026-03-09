@@ -30,7 +30,29 @@ public class Board
     //valid if it resembles a 3x3 board that contains only E, X, O
     public boolean isValidBoardFile() 
     {
-    	
+    	try
+    	{
+    		File file = new File("src/tictactoe/"+this.filename);
+    		Scanner scanner = new Scanner(file);
+    		int xCount = 0, oCount = 0;
+    		while(scanner.hasNextLine())
+    		{
+    			String line = scanner.nextLine().trim();
+    			if(!line.matches("[EXO],[EXO],[EXO]"))
+    			{
+    				scanner.close();
+    				return false;
+    			}
+    			String[] lineArray = line.split(",");
+    		}
+    		scanner.close();
+    		return xCount == oCount || xCount == oCount + 1;
+    	}
+    	catch(Exception error)
+    	{
+    		error.printStackTrace();
+    		return false;
+    	}
     }
     
     //saves the grid to the file in the proper format (CSV)
@@ -46,7 +68,7 @@ public class Board
                 for (int col = 0; col < grid[0].length; col++)
                 {
                     if (col < 2) boardContents += grid[row][col] + ",";
-                    else baordContents += grid[row][col];
+                    else boardContents += grid[row][col];
                 }
                 if (row < 2) boardContents += "\n";
             }
