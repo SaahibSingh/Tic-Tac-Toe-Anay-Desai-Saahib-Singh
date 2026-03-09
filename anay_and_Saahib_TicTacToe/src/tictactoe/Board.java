@@ -44,6 +44,11 @@ public class Board
     				return false;
     			}
     			String[] lineArray = line.split(",");
+                for (String element : lineArray) 
+                {
+                    if (element.equals("X")) xCount++;
+                    if (element.equals("O")) oCount++;
+                }    
     		}
     		scanner.close();
     		return xCount == oCount || xCount == oCount + 1;
@@ -54,7 +59,7 @@ public class Board
     		return false;
     	}
     }
-    
+
     //saves the grid to the file in the proper format (CSV)
     public void saveBoardToFile() 
     { 
