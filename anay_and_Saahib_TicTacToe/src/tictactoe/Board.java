@@ -40,8 +40,7 @@ public class Board
     }
     
     /***These are the methods used to test those above***/
-    //prints the current grid
-    public void printGrid() 
+    public void printGrid() //prints the current grid
     { 
     	for(int row = 0; row < grid.length; row++)
     	{
@@ -56,16 +55,14 @@ public class Board
     public void createRandomBoard() //create a random board
     { 
     	char[] options = {'E', 'X', 'O'};
-        char[][] randomBoard = new char[3][3];
-        for (int row = 0; row < randomBoard.length; row++) 
+        for (int row = 0; row < grid.length; row++) 
         {
-            for (int col = 0; col < randomBoard[0].length; col++) 
+            for (int col = 0; col < grid[0].length; col++) 
             {
-                int idx = (int)(Math.random() * 3);
-                randomBoard[row][col] = options[idx];
+                int index = (int)(Math.random() * options.length);
+                grid[row][col] = options[index];
             }
         }
-        this.grid = randomBoard;
         this.saveBoardToFile();
     } 
     
