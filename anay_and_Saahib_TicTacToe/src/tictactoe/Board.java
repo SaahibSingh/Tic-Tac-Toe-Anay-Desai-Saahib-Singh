@@ -80,7 +80,7 @@ public class Board
     	catch(Exception error)
     	{
     		error.printStackTrace();
-    		return false;
+    		return true;
     	}
     }
 
