@@ -203,6 +203,7 @@ public class Board
     {
         Board b = new Board("board.csv");
         System.out.println(b.isValidBoardFile());
+        b.clearBoard();
         b.createRandomBoard();
         b.printGrid();
         System.out.println(b.isValidBoardFile());
