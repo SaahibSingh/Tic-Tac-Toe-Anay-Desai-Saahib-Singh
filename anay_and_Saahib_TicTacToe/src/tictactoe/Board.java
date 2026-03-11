@@ -27,87 +27,32 @@ public class Board
         }
     }
 
-    // loads the grid with the file contents - [5 points]
-    public void loadBoardFromFile()
-    {
-        Scanner scanner = null;
-        try
-        {
-            File file = new File("src/tictactoe/" + this.filename);
-            scanner = new Scanner(file);
-            int row = 0;
-            while (scanner.hasNextLine() && row < 3)
-            {
-                String line = scanner.nextLine().trim(); // e.g. "E,X,O"
-                String[] parts = line.split(",");
-
-                // defensive: ensure exactly 3 entries
-                if (parts.length != 3)
-                    throw new IllegalArgumentException("Invalid row length in file");
-
-                for (int col = 0; col < 3; col++)
-                {
-                    grid[row][col] = parts[col].charAt(0); // 'E', 'X', or 'O'
-                }
-                row++;
-            }
-        }
-        catch (Exception error)
-        {
-            error.printStackTrace();
-        }
-        finally
-        {
-            if (scanner != null) scanner.close();
-        }
-    }
-
-    // valid if it resembles a 3x3 board that contains only E, X, O
     public boolean isValidBoardFile()
     {
-        Scanner scanner = null;
         try
         {
-            File file = new File("src/tictactoe/" + this.filename);
-            if (!file.exists()) return false;
-
-            scanner = new Scanner(file);
+            File file = new File("src/tictactoe/"+this.filename);
+            Scanner scanner = new Scanner(file);
             int xCount = 0, oCount = 0;
-            int rowCount = 0;
-
-            while (scanner.hasNextLine())
+            while (scanner.hasNextLine()) 
             {
                 String line = scanner.nextLine().trim();
-                rowCount++;
-
-                // must look like "[EXO],[EXO],[EXO]"
-                if (!line.matches("[EXO],[EXO],[EXO]"))
+                if(line.matches("X")) xCount++;
+                if(line.matches("O")) oCount++;
+                if(!line.matches("[EXO],[EXO],[EXO]"))
                 {
+                    scanner.close();
                     return false;
                 }
-
                 String[] lineArray = line.split(",");
-                for (String element : lineArray)
-                {
-                    if (element.equals("X")) xCount++;
-                    if (element.equals("O")) oCount++;
-                }
-            }
-
-            // must be exactly 3 rows
-            if (rowCount != 3) return false;
-
-            // Tic-Tac-Toe turn rule: X goes first
-            return (xCount == oCount || xCount == oCount + 1);
+               }
+            scanner.close();
+            return xCount == oCount || oCount == xCount + 1;
         }
-        catch (Exception error)
+        catch(Exception error)
         {
             error.printStackTrace();
             return false;
-        }
-        finally
-        {
-            if (scanner != null) scanner.close();
         }
     }
 
@@ -162,28 +107,17 @@ public class Board
     // create a random *valid* board
     public void createRandomBoard()
     {
-        if (this.grid == null) return;
-
-        // start with all E
-        clearBoard(); // this also saves to file
-
-        int moves = (int)(Math.random() * 10); // 0–9 moves
-        char current = 'X';
-
-        for (int m = 0; m < moves; m++)
+        char options[] = {'E','X', 'O'};
+        char[][] randomBoard = new char [3][3];
+        for(int row = 0; row < randomBoard.length; row++)
         {
-            int row, col;
-            // find a random empty cell
-            do {
-                row = (int)(Math.random() * 3);
-                col = (int)(Math.random() * 3);
-            } while (grid[row][col] != 'E');
-
-            grid[row][col] = current;
-            // alternate player
-            current = (current == 'X') ? 'O' : 'X';
+            for(int col = 0; col < randomBoard[0].length; col++)
+            {
+                int index = (int)(Math.random()*3);
+                randomBoard[row][col] = options[index];
+            }
         }
-
+        this.grid = randomBoard;
         this.saveBoardToFile();
     }
 
