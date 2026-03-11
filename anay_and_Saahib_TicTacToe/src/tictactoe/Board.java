@@ -128,23 +128,32 @@ public class Board
     	
     } 
     
-    public void createRandomBoard() //create a random board
-    { 
-    	char[] options = {'E', 'X', 'O'};
-    	if(this.grid != null)
+    public void createRandomBoard() //create a random *valid* board
+	{
+    	if (this.grid == null) return;
+
+    	// start with all E
+    	clearBoard(); // this also saves to file
+
+    	int moves = (int)(Math.random() * 10); // 0–9 moves
+    	char current = 'X';
+
+    	for (int m = 0; m < moves; m++)
     	{
-	      for (int row = 0; row < grid.length; row++) 
-	        {
-	            for (int col = 0; col < grid[0].length; col++) 
-	            {
-	                int index = (int)(Math.random() * options.length);
-	                grid[row][col] = options[index];
-	            }
-	        }
-	        this.saveBoardToFile();
+        	int row, col;
+        	// find a random empty cell
+        	do {
+            	row = (int)(Math.random() * 3);
+            	col = (int)(Math.random() * 3);
+        	} while (grid[row][col] != 'E');
+
+        	grid[row][col] = current;
+        	// alternate player
+        	current = (current == 'X') ? 'O' : 'X';
     	}
-      
-    } 
+
+    	this.saveBoardToFile();
+	}
     
     public void clearBoard()  //clears the grid by placing E in every cell
     {  
