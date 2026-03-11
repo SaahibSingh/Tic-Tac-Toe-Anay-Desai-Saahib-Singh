@@ -26,6 +26,42 @@ public class Board
             clearBoard();
         }
     }
+    
+    public void loadBoardFromFile()
+    {
+        Scanner scanner = null;
+        try
+        {
+            File file = new File("src/tictactoe/" + this.filename);
+            scanner = new Scanner(file);
+            int row = 0;
+            while (scanner.hasNextLine() && row < 3)
+            {
+                String line = scanner.nextLine().trim(); // e.g. "E,X,O"
+                String[] parts = line.split(",");
+
+                // defensive: ensure exactly 3 entries
+                if (parts.length != 3)
+                    throw new IllegalArgumentException("Invalid row length in file");
+
+                for (int col = 0; col < 3; col++)
+                {
+                    grid[row][col] = parts[col].charAt(0); // 'E', 'X', or 'O'
+                }
+                row++;
+            }
+        }
+        catch (Exception error)
+        {
+            error.printStackTrace();
+        }
+        finally
+        {
+            if (scanner != null) scanner.close();
+        }
+    }
+
+    // valid if it resembles a 3x3 board that contains only E, X, O
 
     public boolean isValidBoardFile()
     {
