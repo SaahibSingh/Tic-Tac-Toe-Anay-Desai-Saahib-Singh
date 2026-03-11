@@ -115,26 +115,35 @@ public class Board
     
     /***These are the methods used to test those above***/
     public void printGrid() //prints the current grid
-    { 
-    	for(int row = 0; row < grid.length; row++) {
-    		for(int col = 0; col < grid[0].length; col++)
-    			System.out.print(grid[row][col] + " ");
-    		System.out.println();
+    {
+    	if(this.grid != null)
+    	{
+    		for(int row = 0; row < grid.length; row++) 
+    		{
+    			for(int col = 0; col < grid[0].length; col++)
+    				System.out.print(grid[row][col] + " ");
+    			System.out.println();
+    		}
     	}
+    	
     } 
     
     public void createRandomBoard() //create a random board
     { 
     	char[] options = {'E', 'X', 'O'};
-        for (int row = 0; row < grid.length; row++) 
-        {
-            for (int col = 0; col < grid[0].length; col++) 
-            {
-                int index = (int)(Math.random() * options.length);
-                grid[row][col] = options[index];
-            }
-        }
-        this.saveBoardToFile();
+    	if(this.grid != null)
+    	{
+	      for (int row = 0; row < grid.length; row++) 
+	        {
+	            for (int col = 0; col < grid[0].length; col++) 
+	            {
+	                int index = (int)(Math.random() * options.length);
+	                grid[row][col] = options[index];
+	            }
+	        }
+	        this.saveBoardToFile();
+    	}
+      
     } 
     
     public void clearBoard()  //clears the grid by placing E in every cell
@@ -152,9 +161,12 @@ public class Board
     	System.out.println(b.isValidBoardFile());
     	b.createRandomBoard();
     	b.printGrid();
+    	System.out.println(b.isValidBoardFile());
+    	/*
     	b.saveBoardToFile();
     	b.loadBoardFromFile();
     	System.out.println();
     	b.printGrid();
+    	*/
     }
 }
