@@ -13,26 +13,44 @@ public class Board
     //non-default constructor - [5 points]
     public Board(String filename) 
     {
-    	 //set the file name
+       //set the file name
        //if the board is valid then create the 3x3 grid
        //and load the board from the file
     }
     
-    //loads the grid with the file contents - [5 points]
-    public void loadBoardFromFile() 
-    {
-        //Use a scanner to read the board file
-        //and populate the grid with the board values
-        //remember to close the scanner afterwards 
-        //use isValidBoard method as a guide
-    }
+    // loads the grid with the file contents - [5 points]
+	public void loadBoardFromFile()
+	{
+    	Scanner scanner = null;
+    	try
+    	{
+        	File file = new File("src/tictactoe/" + this.filename);
+        	scanner = new Scanner(file);
+
+        	int row = 0;
+        	while (scanner.hasNextLine() && row < 3)
+        	{
+            	String line = scanner.nextLine().trim();   // e.g. "E,X,O"
+            	String[] parts = line.split(",");
+
+            	// assume isValidBoardFile already checked format, so parts.length == 3
+            	for (int col = 0; col < 3; col++) grid[row][col] = parts[col].charAt(0);  // 'E', 'X', or 'O'
+			}
+            row++;
+			scanner.close();
+        }
+    	catch (Exception e)
+    	{
+        	e.printStackTrace();
+    	}
+	}
  
     //valid if it resembles a 3x3 board that contains only E, X, O
     public boolean isValidBoardFile() 
     {
     	try
     	{
-    		File file = new File("src/tictactoe/"+this.filename);
+    		File file = new File("src/tictactoe/" + this.filename);
     		Scanner scanner = new Scanner(file);
     		int xCount = 0, oCount = 0;
     		while(scanner.hasNextLine())
@@ -72,8 +90,11 @@ public class Board
             {
                 for (int col = 0; col < grid[0].length; col++)
                 {
+                    boardContents += (grid[row][col] + col < 2 ? "," : ""); //Ternary operator
+                    /**
                     if (col < 2) boardContents += grid[row][col] + ",";
                     else boardContents += grid[row][col];
+                    **/
                 }
                 if (row < 2) boardContents += "\n";
             }
@@ -89,12 +110,9 @@ public class Board
     /***These are the methods used to test those above***/
     public void printGrid() //prints the current grid
     { 
-    	for(int row = 0; row < grid.length; row++)
-    	{
+    	for(int row = 0; row < grid.length; row++) {
     		for(int col = 0; col < grid[0].length; col++)
-    		{
     			System.out.print(grid[row][col] + " ");
-    		}
     		System.out.println();
     	}
     } 
