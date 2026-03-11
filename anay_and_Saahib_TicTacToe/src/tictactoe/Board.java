@@ -39,9 +39,9 @@ public class Board
             row++;
 			scanner.close();
         }
-    	catch (Exception e)
+    	catch (Exception error)
     	{
-        	e.printStackTrace();
+        	error.printStackTrace();
     	}
 	}
  
