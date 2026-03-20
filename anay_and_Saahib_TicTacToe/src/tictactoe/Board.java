@@ -67,27 +67,41 @@ public class Board
     {
         try
         {
-            File file = new File("src/tictactoe/"+this.filename);
+            File file = new File("src/tictactoe/" + this.filename);
             Scanner scanner = new Scanner(file);
+
             int xCount = 0, oCount = 0;
+            int rowCount = 0;
+
             while (scanner.hasNextLine()) 
             {
                 String line = scanner.nextLine().trim();
-                if(line.matches("X")) xCount++;
-                if(line.matches("O")) oCount++;
+
                 if(!line.matches("[EXO],[EXO],[EXO]"))
                 {
                     scanner.close();
                     return false;
                 }
+
                 String[] lineArray = line.split(",");
-               }
+
+                for (String cell : lineArray)
+                {
+                    if (cell.equals("X")) xCount++;
+                    if (cell.equals("O")) oCount++;
+                }
+
+                rowCount++;
+            }
+
             scanner.close();
-            return xCount == oCount || oCount == xCount + 1;
+
+            if (rowCount != 3) return false;
+
+            return xCount == oCount || xCount == oCount + 1;
         }
         catch(Exception error)
         {
-            error.printStackTrace();
             return false;
         }
     }
@@ -118,10 +132,6 @@ public class Board
         {
             error.printStackTrace();
         }
-        finally
-        {
-            try { if (writer != null) writer.close(); } catch (Exception e) {}
-        }
     }
 
     /***These are the methods used to test those above***/
@@ -129,15 +139,12 @@ public class Board
     // prints the current grid
     public void printGrid()
     {
-        if (this.grid != null)
-        {
             for (int row = 0; row < grid.length; row++)
             {
                 for (int col = 0; col < grid[0].length; col++)
                     System.out.print(grid[row][col] + " ");
                 System.out.println();
             }
-        }
     }
 
     // create a random *valid* board
@@ -160,11 +167,12 @@ public class Board
     // clears the grid by placing E in every cell
     public void clearBoard()
     {
-        char[][] clearedBoard = {
+        char[][] clearedBoard = 
+        	{
                 {'E','E','E'},
                 {'E','E','E'},
                 {'E','E','E'}
-        };
+        	};
         this.grid = clearedBoard;
         this.saveBoardToFile();
     }
@@ -173,7 +181,6 @@ public class Board
     {
         Board b = new Board("board.csv");
         System.out.println(b.isValidBoardFile());
-        b.clearBoard();
         b.createRandomBoard();
         b.printGrid();
         System.out.println(b.isValidBoardFile());
