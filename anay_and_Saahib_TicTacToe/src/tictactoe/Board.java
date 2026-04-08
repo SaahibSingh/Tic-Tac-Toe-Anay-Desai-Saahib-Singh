@@ -14,7 +14,7 @@ public class Board {
     Total 10 points; 2.5 points each**/
     public char getCell(int row, int col) { return this.grid[row][col]; } //Saahib
     public void setCell(int row, int col, char player) {} //Anay
-    public char[][] getGrid() {} //Anay
+    public char[][] getGrid() { return this.grid; } //Anay
     public void setGrid(char[][] newGrid) {} //Saahib
     /**End Phase II**/
 
