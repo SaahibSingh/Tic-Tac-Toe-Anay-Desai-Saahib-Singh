@@ -13,9 +13,12 @@ public class Board {
     New Methods (Getters/Accessor Methods and Setters/Mutator Methods) 
     Total 10 points; 2.5 points each**/
     public char getCell(int row, int col) { return this.grid[row][col]; } //Saahib
-    public void setCell(int row, int col, char player) {} //Anay
+    public void setCell(int row, int col, char player) {  //Saahib
+        this.grid[row][col] = player;
+        this.saveBoardToFile();
+    } 
     public char[][] getGrid() { return this.grid; } //Anay
-    public void setGrid(char[][] newGrid) {} //Saahib
+    public void setGrid(char[][] newGrid) {} //Any
     /**End Phase II**/
 
     /**Begin Phase I - 10 Points**/
