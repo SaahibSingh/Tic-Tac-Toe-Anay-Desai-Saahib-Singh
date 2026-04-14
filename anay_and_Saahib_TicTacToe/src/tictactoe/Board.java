@@ -35,6 +35,14 @@ public class Board {
     }  
     /**End Phase II**/
 
+    /**Begin Phase III - 10 points
+    roughly 3 points each**/
+
+    public boolean checkWin(Board board, char player) {} //Saahib
+    public boolean isDraw(Board board) {} //Anay
+    public boolean isGameOver(Board board) {} //Saahib
+
+    //**End Phase III**/
     /**Begin Phase I - 10 Points**/
     // non-default constructor - [5 points]
     public Board(String filename) {
