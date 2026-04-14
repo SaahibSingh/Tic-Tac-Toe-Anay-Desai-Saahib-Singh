@@ -48,4 +48,17 @@ public class GameLogic {
 
         return false;
     }
+
+  public boolean isDraw (Board board)
+  {
+      for (r = 0; r < grid.length; r++) {
+        for (c = 0; c < grid[0].length; c++) {
+          if (board.getCell(r, c) == 'E')
+            return false;
+          }
+      }
+    if (getWin())
+      reutrn false;
+  }
+        
 }
