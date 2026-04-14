@@ -2,8 +2,6 @@ package tictactoe;
 
 /**Begin Phase III - 10 points
   roughly 3 points each**/
-public class GameLogic {
-  package tictactoe;
 
 public class GameLogic {
     //Saahib
