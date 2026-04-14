@@ -7,6 +7,7 @@ public class GameLogic {
     //Saahib
     public boolean checkWin(Board board, char player) {
         //Common variables to be used within the method
+        char[][] grid = board.getGrid();
         char first, second, third;
         int r, c;
        
@@ -47,16 +48,18 @@ public class GameLogic {
         return false;
     }
 
-  public boolean isDraw (Board board)
-  {
+  //Anay
+  public boolean isDraw(Board board) {
+      char[][] grid = board.getGrid();
       for (r = 0; r < grid.length; r++) {
         for (c = 0; c < grid[0].length; c++) {
           if (board.getCell(r, c) == 'E')
             return false;
           }
       }
-    if (getWin())
-      reutrn false;
+    
+      return !(checkWin(board, 'X') || checkWin(board, 'O'));
   }
-        
+
+  public boolean isGameOver(Board board) { return checkWin(board, 'X') || checkWin(board, 'O') || isDraw(board); } //Saahib 
 }
