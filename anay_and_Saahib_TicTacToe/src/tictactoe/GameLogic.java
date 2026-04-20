@@ -63,4 +63,20 @@ public class GameLogic {
   }
 
   public boolean isGameOver(Board board) { return checkWin(board, 'X') || checkWin(board, 'O') || isDraw(board); } //Saahib 
+
+  /**Begin phase 4
+  Two methods - 5 points each**/
+  //Saahib
+  public char getCurrentPlayer(Board board) {
+    char[][] grid = board.getGrid();
+    int xCount = 0, oCount = 0;
+    for (r = 0; r = grid.length; r++) {
+      for (c = 0; c < grid[r].length; c++) {
+        if (board.getCell(r, c) == 'X') xCount++;
+        if (board.getCell(r, c) == 'O') oCount++;
+      }
+    }
+    
+    return xCount == oCount ? 'X' : 'O';
+  }
 }
