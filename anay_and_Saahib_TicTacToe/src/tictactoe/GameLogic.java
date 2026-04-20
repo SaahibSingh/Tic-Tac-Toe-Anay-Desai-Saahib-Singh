@@ -4,13 +4,14 @@ package tictactoe;
   roughly 3 points each**/
 
 public class GameLogic {
+    //Common Variables to be used - NOT INSTANCE VARIABLES
+    int r, c;
+    char first, second, third;
+  
     //Saahib
     public boolean checkWin(Board board, char player) {
-        //Common variables to be used within the method
         char[][] grid = board.getGrid();
-        char first, second, third;
-        int r, c;
-       
+      
         // rows
         for (r = 0; r < grid.length; r++) {
             first = board.getCell(r, 0);
