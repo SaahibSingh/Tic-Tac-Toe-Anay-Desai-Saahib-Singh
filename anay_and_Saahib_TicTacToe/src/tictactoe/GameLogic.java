@@ -70,7 +70,7 @@ public class GameLogic {
   public char getCurrentPlayer(Board board) {
     char[][] grid = board.getGrid();
     int xCount = 0, oCount = 0;
-    for (r = 0; r = grid.length; r++) {
+    for (r = 0; r <= grid.length; r++) {
       for (c = 0; c < grid[r].length; c++) {
         if (board.getCell(r, c) == 'X') xCount++;
         if (board.getCell(r, c) == 'O') oCount++;
@@ -78,5 +78,20 @@ public class GameLogic {
     }
     
     return xCount == oCount ? 'X' : 'O';
+  }
+  
+  public boolean makeMove(Board board, int row, int col)
+  {
+	  if(board.isValidBoardFile() && row >= 0 && row <= 2 && col >= 0 && col <= 2)
+	  {
+		  char player = getCurrentPlayer(board);
+		  if(board.getCell(row, col) == 'E')
+		  {
+			board.setCell(row, col, player);
+			return true;  
+		  }
+	  }
+	  return false;
+		
   }
 }
