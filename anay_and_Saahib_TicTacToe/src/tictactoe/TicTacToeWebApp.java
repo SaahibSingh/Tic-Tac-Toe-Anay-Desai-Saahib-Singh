@@ -34,6 +34,10 @@ public class TicTacToeWebApp {
         server.createContext("/leaderboard", ex -> serveStatic(ex, "leaderboard.html"));
         server.createContext("/chat", ex -> serveStatic(ex, "chat.html"));
         server.createContext("/matchmaking", ex -> serveStatic(ex, "matchmaking.html"));
+        server.createContext("/react-dist", ex -> {
+            String path = ex.getRequestURI().getPath().replace("/react-dist/", "");
+            serveStatic(ex, "react-dist/" + path);
+        });
     }
 
     private static String getSessionToken(HttpExchange ex) {
