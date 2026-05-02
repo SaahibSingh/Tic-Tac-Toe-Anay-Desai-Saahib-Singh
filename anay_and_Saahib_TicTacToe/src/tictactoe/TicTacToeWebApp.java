@@ -221,3 +221,29 @@ public class TicTacToeWebApp {
         ex.close();
     }
 }
+
+private static void serveStatic(HttpExchange ex, String path) throws IOException {
+    File file = new File("src/tictactoe/web/" + path);
+
+    if (!file.exists() || file.isDirectory()) {
+        ex.sendResponseHeaders(404, -1);
+        return;
+    }
+
+    String mime = switch (path.substring(path.lastIndexOf('.') + 1)) {
+        case "html" -> "text/html";
+        case "css" -> "text/css";
+        case "js" -> "application/javascript";
+        case "png" -> "image/png";
+        case "jpg", "jpeg" -> "image/jpeg";
+        case "svg" -> "image/svg+xml";
+        case "wav" -> "audio/wav";
+        default -> "application/octet-stream";
+    };
+
+    ex.getResponseHeaders().set("Content-Type", mime);
+    byte[] bytes = java.nio.file.Files.readAllBytes(file.toPath());
+    ex.sendResponseHeaders(200, bytes.length);
+    ex.getResponseBody().write(bytes);
+    ex.close();
+}
