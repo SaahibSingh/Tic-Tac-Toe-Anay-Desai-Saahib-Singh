@@ -1,7 +1,6 @@
 package tictactoe;
 
 public class WebRenderer {
-
     public String layout(String title, String body) {
         return """
                <!DOCTYPE html>
@@ -70,9 +69,7 @@ public class WebRenderer {
         StringBuilder sb = new StringBuilder();
         sb.append("<div class='card'>");
         sb.append("<h2>Welcome, ").append(username).append("</h2>");
-        if (message != null && !message.isEmpty()) {
-            sb.append("<p>").append(message).append("</p>");
-        }
+        if (message != null && !message.isEmpty()) sb.append("<p>").append(message).append("</p>");
         sb.append("<table>");
         for (int r = 0; r < 3; r++) {
             sb.append("<tr>");
