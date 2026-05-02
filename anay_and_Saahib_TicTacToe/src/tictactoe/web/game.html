@@ -1,24 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Game</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="neon.css">
+  <meta charset="UTF-8">
+  <title>Game - TicTacToe Online</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="neon.css">
 </head>
 <body class="game-bg">
-<div class="game-container neon-border">
-    <h2 class="neon-text" id="welcome"></h2>
-    <div id="message" class="message"></div>
-    <table id="board" class="board"></table>
-    <div class="controls">
-        <form method="POST" action="/reset">
-            <button class="btn neon-btn">New Game</button>
-        </form>
-        <form method="POST" action="/logout">
-            <button class="btn neon-btn">Logout</button>
-        </form>
-    </div>
-</div>
-<script src="game.js"></script>
+  <div id="root"></div>
+  <script type="module" src="react-dist/game.js"></script>
 </body>
 </html>
