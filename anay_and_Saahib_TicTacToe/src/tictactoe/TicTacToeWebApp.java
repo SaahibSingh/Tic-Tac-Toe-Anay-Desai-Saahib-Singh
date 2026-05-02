@@ -111,7 +111,29 @@ public class TicTacToeWebApp {
         }
         sendJson(ex, json);
         });
+    server.createContext("/matchmaking-json", ex -> {
+    String user = getLoggedInUser(ex);
+    if (user == null) {
+        ex.sendResponseHeaders(401, -1);
+        return;
     }
+
+    String opponent = matchmaking.join(user);
+
+    Map<String, Object> json = new HashMap<>();
+    json.put("opponent", opponent);
+    sendJson(ex, json);
+});
+
+    
+    }
+private static void sendJson(HttpExchange ex, Map<String, Object> data) throws IOException {
+    String json = new com.google.gson.Gson().toJson(data);
+    ex.getResponseHeaders().set("Content-Type", "application/json");
+    ex.sendResponseHeaders(200, json.getBytes().length);
+    ex.getResponseBody().write(json.getBytes());
+    ex.close();
+}
 
     private static String getSessionToken(HttpExchange ex) {
         List<String> cookies = ex.getRequestHeaders().get("Cookie");
