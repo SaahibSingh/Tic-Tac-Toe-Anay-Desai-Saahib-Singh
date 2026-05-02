@@ -28,6 +28,12 @@ public class TicTacToeWebApp {
         server.setExecutor(null);
         System.out.println("Server running on http://localhost:" + PORT);
         server.start();
+        server.createContext("/login", ex -> serveStatic(ex, "login.html"));
+        server.createContext("/signup", ex -> serveStatic(ex, "signup.html"));
+        server.createContext("/game", ex -> serveStatic(ex, "game.html"));
+        server.createContext("/leaderboard", ex -> serveStatic(ex, "leaderboard.html"));
+        server.createContext("/chat", ex -> serveStatic(ex, "chat.html"));
+        server.createContext("/matchmaking", ex -> serveStatic(ex, "matchmaking.html"));
     }
 
     private static String getSessionToken(HttpExchange ex) {
