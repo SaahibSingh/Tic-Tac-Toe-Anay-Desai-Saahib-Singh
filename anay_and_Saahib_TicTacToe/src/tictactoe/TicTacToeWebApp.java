@@ -38,6 +38,53 @@ public class TicTacToeWebApp {
             String path = ex.getRequestURI().getPath().replace("/react-dist/", "");
             serveStatic(ex, "react-dist/" + path);
         });
+
+        
+        server.createContext("/game-json", ex -> {
+            String user = getLoggedInUser(ex);
+            if (user == null) {
+                ex.sendResponseHeaders(401, -1);
+                return;
+            }
+        
+            Board board = getBoardForUser(user);
+            Map<String, Object> json = new HashMap<>();
+            json.put("grid", board.getGrid());
+            json.put("message", "");
+            json.put("gameOver", false);
+        
+            sendJson(ex, json);
+        });
+
+        server.createContext("/game-move", ex -> {
+        String user = getLoggedInUser(ex);
+        if (user == null) {
+            ex.sendResponseHeaders(401, -1);
+            return;
+        }
+
+        Map<String, String> q = parseQuery(ex.getRequestURI().getQuery());
+        int r = Integer.parseInt(q.get("row"));
+        int c = Integer.parseInt(q.get("col"));
+
+        Board board = getBoardForUser(user);
+        GameLogic logic = new GameLogic();
+        char current = computeCurrentPlayer(board);
+        if (board.getCell(r, c) == 'E') board.setCell(r, c, current);
+        Map<String, Object> json = new HashMap<>();
+        json.put("grid", board.getGrid());
+        if (logic.checkWin(board, current)) {
+            json.put("message", "Player " + current + " wins!");
+            json.put("gameOver", true);
+        } else if (logic.isDraw(board)) {
+            json.put("message", "It's a draw!");
+            json.put("gameOver", true);
+        } else {
+            json.put("message", "");
+            json.put("gameOver", false);
+        }
+        sendJson(ex, json);
+        });
     }
 
     private static String getSessionToken(HttpExchange ex) {
@@ -256,21 +303,4 @@ private static void serveStatic(HttpExchange ex, String path) throws IOException
     ex.sendResponseHeaders(200, bytes.length);
     ex.getResponseBody().write(bytes);
     ex.close();
-}
-
-server.createContext("/game-json", ex -> {
-    String user = getLoggedInUser(ex);
-    if (user == null) {
-        ex.sendResponseHeaders(401, -1);
-        return;
-    }
-
-    Board board = getBoardForUser(user);
-    Map<String, Object> json = new HashMap<>();
-    json.put("grid", board.getGrid());
-    json.put("message", "");
-    json.put("gameOver", false);
-
-    sendJson(ex, json);
-});
 }
