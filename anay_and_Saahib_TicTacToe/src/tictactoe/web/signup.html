@@ -1,21 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="neon.css">
+  <meta charset="UTF-8">
+  <title>Sign Up - TicTacToe Online</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="neon.css">
 </head>
 <body class="auth-bg">
-<div class="auth-card neon-border">
-    <h2 class="neon-text">Create Account</h2>
-    <form method="POST" action="/signup">
-        <input class="input" name="username" placeholder="Username" required>
-        <input class="input" name="password" type="password" placeholder="Password" required>
-        <button class="btn neon-btn" type="submit">Sign Up</button>
-    </form>
-    <p class="small-text">
-        Already have an account? <a href="login.html">Sign in</a>
-    </p>
-</div>
+  <div id="root"></div>
+  <script type="module" src="react-dist/signup.js"></script>
 </body>
 </html>
