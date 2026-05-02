@@ -34,6 +34,32 @@ public class TicTacToeWebApp {
         server.createContext("/leaderboard", ex -> serveStatic(ex, "leaderboard.html"));
         server.createContext("/chat", ex -> serveStatic(ex, "chat.html"));
         server.createContext("/matchmaking", ex -> serveStatic(ex, "matchmaking.html"));
+        server.createContext("/leaderboard-json", ex -> {
+            List<String> rows = leaderboard.getRankings();
+            Map<String, Object> json = new HashMap<>();
+            json.put("rows", rows);
+            sendJson(ex, json);
+        });
+
+        server.createContext("/chat-json", ex -> {
+            Map<String, Object> json = new HashMap<>();
+            json.put("messages", chatServer.getMessages());
+            sendJson(ex, json);
+        });
+
+        server.createContext("/chat-post", ex -> {
+        String user = getLoggedInUser(ex);
+        if (user == null) {
+            ex.sendResponseHeaders(401, -1);
+            return;
+        });
+    
+        Map<String, String> form = parseForm(ex);
+        chatServer.post(user, form.get("message"));
+    
+        ex.sendResponseHeaders(200, -1);
+        });
+
         server.createContext("/react-dist", ex -> {
             String path = ex.getRequestURI().getPath().replace("/react-dist/", "");
             serveStatic(ex, "react-dist/" + path);
