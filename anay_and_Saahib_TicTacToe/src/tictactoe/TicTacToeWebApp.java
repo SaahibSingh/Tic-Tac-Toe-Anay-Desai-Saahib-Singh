@@ -1,7 +1,7 @@
 package tictactoe;
 
+//Imports
 import com.sun.net.httpserver.*;
-
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
@@ -9,17 +9,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class TicTacToeWebApp {
-
     private static final int PORT = 8080;
-
     private static final UserStore userStore = new UserStore();
     private static final AuthService authService = new AuthService(userStore);
     private static final SessionManager sessions = new SessionManager();
     private static final WebRenderer renderer = new WebRenderer();
     private static final GameLogic logic = new GameLogic();
-
-    // per-user board cache
-    private static final Map<String, Board> boards = new HashMap<>();
+    private static final Map<String, Board> boards = new HashMap<>(); // per-user board cache
 
     public static void main(String[] args) throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
@@ -34,8 +30,6 @@ public class TicTacToeWebApp {
         server.start();
     }
 
-    // ---------- Helpers ----------
-
     private static String getSessionToken(HttpExchange ex) {
         List<String> cookies = ex.getRequestHeaders().get("Cookie");
         if (cookies == null) return null;
@@ -43,9 +37,7 @@ public class TicTacToeWebApp {
             String[] parts = header.split(";");
             for (String p : parts) {
                 String[] kv = p.trim().split("=", 2);
-                if (kv.length == 2 && kv[0].equals("SESSION")) {
-                    return kv[1];
-                }
+                if (kv.length == 2 && kv[0].equals("SESSION")) return kv[1];
             }
         }
         return null;
@@ -61,9 +53,7 @@ public class TicTacToeWebApp {
         byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
         ex.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
         ex.sendResponseHeaders(200, bytes.length);
-        try (OutputStream os = ex.getResponseBody()) {
-            os.write(bytes);
-        }
+        try (OutputStream os = ex.getResponseBody()) { os.write(bytes); } catch (Exception e) { e.printStackTrace(); } 
     }
 
     private static Map<String, String> parseForm(HttpExchange ex) throws IOException {
@@ -108,11 +98,9 @@ public class TicTacToeWebApp {
             File f = new File("src/tictactoe/" + filename);
             if (!f.exists()) {
                 f.getParentFile().mkdirs();
-                try (FileWriter w = new FileWriter(f)) {
-                    w.write("E,E,E\nE,E,E\nE,E,E");
-                }
+                try (FileWriter w = new FileWriter(f)) {  w.write("E,E,E\nE,E,E\nE,E,E"); } catch (Exception e) { e.printStackTrace(); } 
             }
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) { ignored.printStackTrace(); }
     }
 
     private static char computeCurrentPlayer(Board board) {
@@ -127,19 +115,11 @@ public class TicTacToeWebApp {
         return (x == o) ? 'X' : 'O';
     }
 
-    // ---------- Handlers ----------
-
     private static void handleRoot(HttpExchange ex) throws IOException {
         String user = getLoggedInUser(ex);
-        if (user == null) {
-            ex.getResponseHeaders().add("Location", "/login");
-            ex.sendResponseHeaders(302, -1);
-            ex.close();
-        } else {
-            ex.getResponseHeaders().add("Location", "/game");
-            ex.sendResponseHeaders(302, -1);
-            ex.close();
-        }
+        ex.getResponseHeaders().add("Location", user == null ? "/login" : "/game");
+        ex.sendResponseHeaders(302, -1);
+        ex.close();
     }
 
     private static void handleLogin(HttpExchange ex) throws IOException {
@@ -158,9 +138,7 @@ public class TicTacToeWebApp {
                 ex.getResponseHeaders().add("Location", "/game");
                 ex.sendResponseHeaders(302, -1);
                 ex.close();
-            } else {
-                sendResponse(ex, renderer.loginPage("Invalid credentials."));
-            }
+            } else  sendResponse(ex, renderer.loginPage("Invalid credentials."));
         }
     }
 
