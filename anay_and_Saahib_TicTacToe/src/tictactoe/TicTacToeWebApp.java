@@ -257,3 +257,20 @@ private static void serveStatic(HttpExchange ex, String path) throws IOException
     ex.getResponseBody().write(bytes);
     ex.close();
 }
+
+server.createContext("/game-json", ex -> {
+    String user = getLoggedInUser(ex);
+    if (user == null) {
+        ex.sendResponseHeaders(401, -1);
+        return;
+    }
+
+    Board board = getBoardForUser(user);
+    Map<String, Object> json = new HashMap<>();
+    json.put("grid", board.getGrid());
+    json.put("message", "");
+    json.put("gameOver", false);
+
+    sendJson(ex, json);
+});
+}
