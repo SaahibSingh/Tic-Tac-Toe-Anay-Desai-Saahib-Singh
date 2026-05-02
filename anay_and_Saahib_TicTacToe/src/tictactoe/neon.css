@@ -1,0 +1,21 @@
+.neon-text {
+    color: #00eaff;
+    text-shadow: 0 0 8px #00eaff, 0 0 20px #00eaff;
+}
+
+.neon-border {
+    border: 2px solid #00eaff;
+    box-shadow: 0 0 12px #00eaff, inset 0 0 12px #00eaff;
+}
+
+.neon-btn {
+    background: #00eaff;
+    color: #000;
+    font-weight: bold;
+    box-shadow: 0 0 10px #00eaff;
+}
+
+.neon-btn:hover {
+    background: #00c7d6;
+    box-shadow: 0 0 20px #00eaff;
+}
