@@ -1,14 +1,8 @@
 package tictactoe;
-
-import java.security.MessageDigest;
-
+import java.security.MessageDigest; //Import
 public class AuthService {
-
-    private final UserStore store;
-
-    public AuthService(UserStore store) {
-        this.store = store;
-    }
+    private final UserStore store; //Instance Variable
+    public AuthService(UserStore store) { this.store = store; } //Constructor
 
     public boolean register(String username, String password) {
         String hash = hash(password);
@@ -28,8 +22,6 @@ public class AuthService {
             StringBuilder sb = new StringBuilder();
             for (byte x : b) sb.append(String.format("%02x", x));
             return sb.toString();
-        } catch (Exception e) {
-            return input;
-        }
+        } catch (Exception e) { return input; e.printStackTrace(); }
     }
 }
