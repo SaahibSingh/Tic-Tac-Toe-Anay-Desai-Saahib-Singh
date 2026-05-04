@@ -1,9 +1,6 @@
 package tictactoe;
 
-//Import
 import com.sun.net.httpserver.HttpServer;
-import com.sun.net.httpserver.HttpExchange;
-import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class TicTacToeWebApp {
@@ -33,15 +30,15 @@ public class TicTacToeWebApp {
             WebRenderer.serve(ex, "react-dist/" + path);
         });
 
-        // JSON API
-        server.createContext("/game-json", GameAPI::handleGameState);
-        server.createContext("/game-move", GameAPI::handleMove);
-        server.createContext("/leaderboard-json", LeaderboardAPI::handleLeaderboard);
-        server.createContext("/chat-json", ChatAPI::handleChatGet);
-        server.createContext("/chat-post", ChatAPI::handleChatPost);
-        server.createContext("/matchmaking-json", MatchmakingAPI::handleMatchmaking);
+        // API (all handled by ONE class)
+        server.createContext("/game-json", BackendAPI::gameState);
+        server.createContext("/game-move", BackendAPI::gameMove);
+        server.createContext("/leaderboard-json", BackendAPI::leaderboard);
+        server.createContext("/chat-json", BackendAPI::chatGet);
+        server.createContext("/chat-post", BackendAPI::chatPost);
+        server.createContext("/matchmaking-json", BackendAPI::matchmaking);
 
-        System.out.println("Server running on http://localhost:8080");
+        System.out.println("Server running at http://localhost:8080");
         server.start();
     }
 }
