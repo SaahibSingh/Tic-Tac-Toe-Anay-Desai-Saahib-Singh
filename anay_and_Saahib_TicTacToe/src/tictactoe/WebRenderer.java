@@ -7,7 +7,7 @@ public class WebRenderer {
                <html>
                <head>
                  <meta charset="UTF-8">
-                 <title>""" + title + """</title>
+                 <title>""" + title + ""<title>"
                  <style>
                    body { font-family: Arial, sans-serif; background:#0b1020; color:#f5f5f5; text-align:center; }
                    .card { background:#151a2a; padding:20px; margin:40px auto; border-radius:8px; width:360px; box-shadow:0 0 20px rgba(0,0,0,0.5); }
