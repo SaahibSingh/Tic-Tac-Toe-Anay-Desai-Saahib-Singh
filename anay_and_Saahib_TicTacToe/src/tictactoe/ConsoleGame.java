@@ -1,11 +1,10 @@
 package tictactoe;
-import java.util.Scanner; //Import
+
+import java.util.Scanner;
+
 public class ConsoleGame {
-    public static void start(Scanner sc) {
-        System.out.print("Enter Player 1 username (X): ");
-        String p1 = sc.nextLine();
-        System.out.print("Enter Player 2 username (O): ");
-        String p2 = sc.nextLine();
+
+    public static void start(String p1, String p2, Scanner sc) {
 
         char[][] board = {
             {' ', ' ', ' '},
@@ -15,17 +14,25 @@ public class ConsoleGame {
 
         char current = 'X';
         String currentPlayer = p1;
+
         System.out.println("\nGame Start!");
         printBoard(board);
+
         while (true) {
             System.out.println(currentPlayer + " (" + current + ") — enter your move.");
+
             int r, c;
+
             while (true) {
                 System.out.print("Row (0-2): ");
                 r = sc.nextInt();
                 System.out.print("Col (0-2): ");
                 c = sc.nextInt();
-                if (r >= 0 && r < 3 && c >= 0 && c < 3 && board[r][c] == ' ') break;
+
+                if (r >= 0 && r < 3 && c >= 0 && c < 3 && board[r][c] == ' ') {
+                    break;
+                }
+
                 System.out.println("Invalid move. Try again.");
             }
 
@@ -42,7 +49,6 @@ public class ConsoleGame {
                 break;
             }
 
-            // Switch player
             if (current == 'X') {
                 current = 'O';
                 currentPlayer = p2;
