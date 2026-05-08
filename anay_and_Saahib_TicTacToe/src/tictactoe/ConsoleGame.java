@@ -1,61 +1,49 @@
 package tictactoe;
-
-import java.util.Scanner;
-
+import java.util.Scanner; //Import
 public class ConsoleGame {
-
-    public static void start(String p1, String p2, Scanner sc) {
-
+    public static void start(String p1, String p2, Scanner sc, Scoreboard scoreboard, Leaderboard leaderboard) {
         char[][] board = {
             {' ', ' ', ' '},
             {' ', ' ', ' '},
             {' ', ' ', ' '}
         };
-
         char current = 'X';
         String currentPlayer = p1;
-
         System.out.println("\nGame Start!");
         printBoard(board);
-
         while (true) {
             System.out.println(currentPlayer + " (" + current + ") — enter your move.");
-
             int r, c;
-
             while (true) {
                 System.out.print("Row (0-2): ");
                 r = sc.nextInt();
                 System.out.print("Col (0-2): ");
                 c = sc.nextInt();
-
-                if (r >= 0 && r < 3 && c >= 0 && c < 3 && board[r][c] == ' ') {
-                    break;
-                }
-
+                if (r >= 0 && r < 3 && c >= 0 && c < 3 && board[r][c] == ' ') break;
                 System.out.println("Invalid move. Try again.");
             }
 
             board[r][c] = current;
             printBoard(board);
-
             if (checkWin(board, current)) {
                 System.out.println("🎉 " + currentPlayer + " (" + current + ") wins!");
+                if (current == 'X') scoreboard.addWinForPlayer1(); else scoreboard.addWinForPlayer2();
+                leaderboard.recordWin(current == 'X' ? p1 : p2);
+                leaderboard.recordLoss(current == 'X' ? p2 : p1);
+                System.out.println(scoreboard.getScoreboard(p1, p2));
                 break;
             }
 
             if (isDraw(board)) {
                 System.out.println("It's a draw!");
+                scoreboard.addDraw();
+                leaderboard.recordDraw(p1, p2);
+                System.out.println(scoreboard.getScoreboard(p1, p2));
                 break;
             }
-
-            if (current == 'X') {
-                current = 'O';
-                currentPlayer = p2;
-            } else {
-                current = 'X';
-                currentPlayer = p1;
-            }
+            
+            current = current == 'X' ? 'O' : 'X';
+            currentPlayer = current == 'X' ? p2 : p1;
         }
     }
 
@@ -63,9 +51,7 @@ public class ConsoleGame {
         System.out.println("-------------");
         for (int r = 0; r < 3; r++) {
             System.out.print("| ");
-            for (int c = 0; c < 3; c++) {
-                System.out.print(b[r][c] + " | ");
-            }
+            for (int c = 0; c < 3; c++) System.out.print(b[r][c] + " | ");
             System.out.println();
             System.out.println("-------------");
         }
@@ -73,25 +59,15 @@ public class ConsoleGame {
     }
 
     static boolean checkWin(char[][] b, char p) {
-        for (int r = 0; r < 3; r++)
-            if (b[r][0] == p && b[r][1] == p && b[r][2] == p)
-                return true;
-
-        for (int c = 0; c < 3; c++)
-            if (b[0][c] == p && b[1][c] == p && b[2][c] == p)
-                return true;
-
+        for (int r = 0; r < 3; r++) if (b[r][0] == p && b[r][1] == p && b[r][2] == p) return true;
+        for (int c = 0; c < 3; c++) if (b[0][c] == p && b[1][c] == p && b[2][c] == p) return true;
         if (b[0][0] == p && b[1][1] == p && b[2][2] == p) return true;
         if (b[0][2] == p && b[1][1] == p && b[2][0] == p) return true;
-
         return false;
     }
 
     static boolean isDraw(char[][] b) {
-        for (int r = 0; r < 3; r++)
-            for (int c = 0; c < 3; c++)
-                if (b[r][c] == ' ')
-                    return false;
+        for (int r = 0; r < 3; r++) for (int c = 0; c < 3; c++) if (b[r][c] == ' ') return false;
         return true;
     }
 }

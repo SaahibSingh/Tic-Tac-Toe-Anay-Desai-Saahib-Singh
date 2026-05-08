@@ -173,7 +173,7 @@ public class Board {
         this.grid = clearedBoard;
         this.saveBoardToFile();
     }
-    
+    /*
     public static void main(String[] args) {
         Board b = new Board("board.csv");
         System.out.println(b.isValidBoardFile());
@@ -184,5 +184,5 @@ public class Board {
         // b.loadBoardFromFile();
         // System.out.println();
         // b.printGrid();
-    }
+    }*/
 }
