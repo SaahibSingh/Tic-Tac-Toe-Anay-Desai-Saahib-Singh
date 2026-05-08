@@ -1,40 +1,46 @@
 package tictactoe;
 
-//Imports
 import javax.swing.*;
 import java.awt.*;
 
 public class TitleScreen {
-    public interface StartCallback { void onStart(); }
+
+    public interface StartCallback {
+        void onStart();
+    }
+
     public static void show(JFrame frame, StartCallback callback) {
 
-        JPanel panel = new JPanel(null);
-        panel.setBackground(Color.BLACK);
+        ModernUI.installGlobalFont();
 
-        frame.setContentPane(panel);
+        AnimatedGradientPanel bg = new AnimatedGradientPanel();
+        bg.setLayout(null);
+
+        frame.setContentPane(bg);
         frame.repaint();
         frame.revalidate();
 
         JLabel title = new JLabel("TIC TAC TOE", SwingConstants.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 42));
+        title.setFont(new Font("SansSerif", Font.BOLD, 42));
         title.setForeground(Color.WHITE);
-        title.setBounds(40, 180, 300, 60);
+        title.setBounds(20, 140, 340, 60);
+        title.setOpaque(false);
         title.setVisible(false);
-        panel.add(title);
+        bg.add(title);
 
         JLabel subtitle = new JLabel("by Saahib", SwingConstants.CENTER);
-        subtitle.setFont(new Font("Arial", Font.PLAIN, 20));
-        subtitle.setForeground(Color.LIGHT_GRAY);
-        subtitle.setBounds(40, 240, 300, 40);
+        subtitle.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        subtitle.setForeground(new Color(230, 230, 230));
+        subtitle.setBounds(20, 200, 340, 40);
         subtitle.setVisible(false);
-        panel.add(subtitle);
+        bg.add(subtitle);
 
-        JButton startBtn = new JButton("Start Game");
-        startBtn.setFont(new Font("Arial", Font.BOLD, 24));
-        startBtn.setBounds(90, 500, 200, 50);
+        JButton startBtn = ModernUI.createPrimaryButton("Start");
+        startBtn.setBounds(110, 380, 160, 55);
         startBtn.setVisible(false);
-        panel.add(startBtn);
+        bg.add(startBtn);
 
+        // Fade-in animation
         Timer fadeTimer = new Timer(20, null);
         final float[] alpha = {1f};
 
@@ -42,12 +48,11 @@ public class TitleScreen {
             alpha[0] -= 0.02f;
             if (alpha[0] <= 0f) {
                 fadeTimer.stop();
-                panel.setBackground(new Color(0, 0, 0, 0));
                 title.setVisible(true);
                 subtitle.setVisible(true);
-                animateTitleZoom(title, subtitle, startBtn);
+                animateZoom(title, subtitle, startBtn);
             } else {
-                panel.setBackground(new Color(0, 0, 0, alpha[0]));
+                bg.setBackground(new Color(0, 0, 0, alpha[0]));
             }
         });
 
@@ -59,9 +64,9 @@ public class TitleScreen {
         });
     }
 
-    private static void animateTitleZoom(JLabel title, JLabel subtitle, JButton startBtn) {
+    private static void animateZoom(JLabel title, JLabel subtitle, JButton startBtn) {
         Timer zoomTimer = new Timer(20, null);
-        final float[] scale = {0.8f};
+        final float[] scale = {0.7f};
 
         zoomTimer.addActionListener(e -> {
             scale[0] += 0.02f;
@@ -71,24 +76,26 @@ public class TitleScreen {
 
             if (scale[0] >= 1f) {
                 zoomTimer.stop();
-                animateButtonsSlide(startBtn);
+                animateSlide(startBtn);
             }
         });
 
         zoomTimer.start();
     }
 
-    private static void animateButtonsSlide(JButton startBtn) {
-        startBtn.setVisible(true);
+    private static void animateSlide(JButton btn) {
+        btn.setVisible(true);
 
         Timer slideTimer = new Timer(10, null);
         final int[] y = {600};
 
         slideTimer.addActionListener(e -> {
             y[0] -= 8;
-            startBtn.setLocation(startBtn.getX(), y[0]);
+            btn.setLocation(btn.getX(), y[0]);
 
-            if (y[0] <= 400) slideTimer.stop();
+            if (y[0] <= 380) {
+                slideTimer.stop();
+            }
         });
 
         slideTimer.start();
